@@ -6,10 +6,13 @@ import java.awt.*;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
+import observer.GridElement;
+
 public class GameWindow extends JFrame {
 
 	private JPanel contentPane;
 	private JLayeredPane[][] grid = new JLayeredPane[4][4]; // create 2D array of buttons for 4x4 grid
+	private GridElement[][] gridobj = new GridElement[4][4];
 	
 	private int xDim = 640;
 	private int yDim = 480;
@@ -88,9 +91,10 @@ public class GameWindow extends JFrame {
 		{
 			for (int i = 0; i < 4; ++i)
 			{
+				
 				// create a new button and add to layered pane
 				JButton newButton = new JButton();
-				newButton.setEnabled(true);
+				newButton.setEnabled(false);
 				newButton.setOpaque(false);
 				
 				// new layered panel to be stored in 2d array as a grid. 
@@ -100,20 +104,32 @@ public class GameWindow extends JFrame {
 				newButton.setVerticalAlignment(JButton.TOP);
 				newButton.setHorizontalAlignment(JButton.CENTER);
 
-				panel.add(newButton, 0);
+				//panel.add(newButton, 0);
 								
-				JLabel label = new JLabel(spaceTile);
+				JLabel label = new JLabel("hewjrklf");
 				label.setVerticalAlignment(JLabel.CENTER);
 		        label.setHorizontalAlignment(JLabel.CENTER);
-		        label.setBounds(0,0, xDim, yDim);
-				panel.add(label, 0);
+		        label.setBounds(0,0, xDim/2, yDim/2);
+				panel.add(label, i);
+				
+				JLabel label1 = new JLabel(row + ", " + i);
+				label1.setVerticalAlignment(JLabel.CENTER);
+		        label1.setHorizontalAlignment(JLabel.CENTER);
+		        label1.setBounds(0,0, xDim, yDim);
+		        label1.setOpaque(true);
+		        label1.setBackground(Color.red);
+		        label1.setForeground(Color.black);
+		        label1.setBorder(BorderFactory.createLineBorder(Color.black));
+		        label1.setPreferredSize(new Dimension(10, 140));
+				panel.add(label1, 1);
 				
 				// add whole component to game pane
 				gamePane.add(panel);
 				grid[row][i] = panel;
+				//gridobj[row][i] = new GridElement();
 
 			}
-			row++;
+			row++; // increment to next row once 4 buttons have been added
 		}
 		
 	}
