@@ -65,6 +65,7 @@ public class GameWindow extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				System.out.println("click");
+				myMan.undo();
 			}
 		});
 		

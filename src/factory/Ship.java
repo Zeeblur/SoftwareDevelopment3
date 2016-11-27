@@ -20,7 +20,6 @@ public abstract class Ship
 	{	
 		Point newPosition = null;
 		
-		
 		// keep searching for valid move until found
 		while (!valid)
 		{
@@ -38,7 +37,7 @@ public abstract class Ship
 				continue;
 			
 			// can't move to same square
-			if (newPosition == position)
+			if (newPosition.x == position.x && newPosition.y == position.y)
 				continue;
 			
 			valid = true;
@@ -60,18 +59,6 @@ public abstract class Ship
 		int newY = rng.nextInt(((position.y+1) - (position.y-1)) + 1) + (position.y-1);
 		
 		return new Point(newX, newY);
-	}
-	
-	private ArrayList<Point> getAvaliableMoves()
-	{
-		ArrayList<Point> result = new ArrayList<Point>();
-		
-		for (int i = 0; i < 16; ++i)
-		{
-			
-		}
-		
-		return result;
 	}
 	
 	// returns position of ship

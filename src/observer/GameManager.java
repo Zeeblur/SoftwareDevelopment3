@@ -15,7 +15,8 @@ public class GameManager implements Observable
 	// hold game states. update cells as listeners.
 	private GameState currentState;
 	
-	private Stack<GameState> undoStack;
+	private Stack<GameState> undoStack = new Stack<GameState>();
+	private Stack<GameState> redoStack = new Stack<GameState>();
 	
 	
 	// instance of factory
@@ -34,7 +35,7 @@ public class GameManager implements Observable
 		
 		// create initial state
 		currentState = new GameState(master, null);
-		//undoStack
+		undoStack.push(currentState);
 		notifyListeners();
 	}
 	
@@ -46,9 +47,16 @@ public class GameManager implements Observable
 		Command movePlayer = new MoveCommand(this.currentState.getPlayer());
 		movePlayer.execute();
 		
-		// create initial state
+		// create new gamestate and notify listeners(update gui)
+		undoStack.push(currentState);
 		currentState = new GameState(this.currentState.getPlayer(), null);
-		//undoStack
+		notifyListeners();
+	}
+	
+	public void undo()
+	{		
+		redoStack.push(currentState);
+		currentState = undoStack.pop();
 		notifyListeners();
 	}
 
