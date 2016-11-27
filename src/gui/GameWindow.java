@@ -2,6 +2,8 @@ package gui;
 
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -11,37 +13,18 @@ import observer.GridElement;
 public class GameWindow extends JFrame {
 
 	private JPanel contentPane;
-	private JLayeredPane[][] grid = new JLayeredPane[4][4]; // create 2D array of buttons for 4x4 grid
-	private GridElement[][] gridobj = new GridElement[4][4];
+	private GridElement[][] gridcell = new GridElement[4][4];
 	
 	private int xDim = 640;
 	private int yDim = 480;
-
 	
-	private ImageIcon spaceTile = new ImageIcon("images/space.png");
-	
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					GameWindow frame = new GameWindow();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
 	/**
 	 * Create the frame.
 	 */
 	public GameWindow() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 640, 480);
+		setBounds(0, 0, 640, 480);
+		setExtendedState(JFrame.MAXIMIZED_BOTH);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -82,7 +65,26 @@ public class GameWindow extends JFrame {
 
 	
 		JButton undoBtn = new JButton("Undo");
-		controlPane.add(undoBtn);		
+		undoBtn.addActionListener(new ActionListener()
+		{
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				System.out.println("click");
+			}
+		});
+		
+		controlPane.add(undoBtn);
+		
+		JButton moveBtn = new JButton("Move");
+		moveBtn.addActionListener(new ActionListener()
+		{
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				System.out.println("click moe");
+			}
+		});
+		
+		controlPane.add(moveBtn);
 
 		// Add buttons to game grid
 		int row = 0;
@@ -91,47 +93,21 @@ public class GameWindow extends JFrame {
 		{
 			for (int i = 0; i < 4; ++i)
 			{
+				// create a gridelement object at the right position
+				GridElement cell = new GridElement(row, i, xDim, yDim);
 				
-				// create a new button and add to layered pane
-				JButton newButton = new JButton();
-				newButton.setEnabled(false);
-				newButton.setOpaque(false);
-				
-				// new layered panel to be stored in 2d array as a grid. 
-				// images can be added as layers.
-				JLayeredPane panel = new JLayeredPane();
-				newButton.setBounds(0, 0, xDim, yDim);
-				newButton.setVerticalAlignment(JButton.TOP);
-				newButton.setHorizontalAlignment(JButton.CENTER);
-
-				//panel.add(newButton, 0);
-								
-				JLabel label = new JLabel("hewjrklf");
-				label.setVerticalAlignment(JLabel.CENTER);
-		        label.setHorizontalAlignment(JLabel.CENTER);
-		        label.setBounds(0,0, xDim/2, yDim/2);
-				panel.add(label, i);
-				
-				JLabel label1 = new JLabel(row + ", " + i);
-				label1.setVerticalAlignment(JLabel.CENTER);
-		        label1.setHorizontalAlignment(JLabel.CENTER);
-		        label1.setBounds(0,0, xDim, yDim);
-		        label1.setOpaque(true);
-		        label1.setBackground(Color.red);
-		        label1.setForeground(Color.black);
-		        label1.setBorder(BorderFactory.createLineBorder(Color.black));
-		        label1.setPreferredSize(new Dimension(10, 140));
-				panel.add(label1, 1);
-				
-				// add whole component to game pane
-				gamePane.add(panel);
-				grid[row][i] = panel;
-				//gridobj[row][i] = new GridElement();
-
+				gamePane.add(cell.getPanel());
+				gridcell[row][i] = cell;
 			}
 			row++; // increment to next row once 4 buttons have been added
 		}
 		
+	}
+	
+	
+	public GridElement[][] getGrid()
+	{
+		return this.gridcell;
 	}
 
 }

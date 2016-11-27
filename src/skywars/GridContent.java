@@ -1,0 +1,5 @@
+package skywars;
+
+public enum GridContent {
+	EMPTY, MASTER, STAR, CRUISER, SHOOTER, STARCRUISER, STARSHOOTER, CRUISERSHOOTER,
+}

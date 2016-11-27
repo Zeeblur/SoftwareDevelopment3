@@ -1,5 +1,8 @@
 package strategy;
 
+import java.awt.Point;
+import java.util.Random;
+
 import factory.Ship;
 
 public class MasterShip extends Ship
@@ -11,11 +14,18 @@ public class MasterShip extends Ship
 	// private constructor for use in singleton pattern	
 	private MasterShip()
 	{
+		// initialise descriptions
+		this.description = "Master Ship";
+		
 		// choose defence mode by default
 		ShipMode mode = new DefenceMode();
 		
 		// set ships operational mode
 		setShipMode(mode);
+		
+		// set random starting location for ship
+		Random rng = new Random();
+		this.position = new Point(rng.nextInt(3) + 1, rng.nextInt(4));
 	}
 
 	// singleton pattern for master ship

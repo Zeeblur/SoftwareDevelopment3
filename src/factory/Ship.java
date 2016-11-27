@@ -1,12 +1,23 @@
 package factory;
 
-import java.awt.geom.Point2D;
+import java.awt.Point;
 
 public abstract class Ship
 {
-	private Point2D coordinates;
+	protected Point position;
 	protected String description;
 	
 	public void Move(){	};
 	
+	// returns position of ship
+	public Point getPosition()
+	{
+		return this.position;
+	};
+	
+	// getter for description of ship
+	public String getDescription()
+	{
+		return this.description;
+	}
 }

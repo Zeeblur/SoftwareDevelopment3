@@ -2,7 +2,6 @@ package observer;
 
 public interface Observable
 {
-	public void registerListner();
-	public void unregisterListner();
-	public void update();
+	public void registerListeners(GridElement[][] cells);
+	public void notifyListeners();
 }
