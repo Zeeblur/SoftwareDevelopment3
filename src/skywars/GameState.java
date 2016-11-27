@@ -15,9 +15,16 @@ public class GameState
 	
 	public GameState(Ship master, ArrayList<Ship> en)
 	{
-		// reference to players 
-		this.player = master;
-		this.enemies = en;
+		// deep copy of ships so changes elsewhere are not reflected 
+		this.player = master.deepCopy();
+		
+		if (enemies != null)
+		{
+			for (Ship enemy : en)
+			{
+				this.enemies.add(enemy.deepCopy());
+			}
+		}
 		
 		// initialise celllocations
 		for (String[] stringArray : cellLocations)
@@ -57,5 +64,10 @@ public class GameState
 	public String[][] getLocations()
 	{
 		return this.cellLocations;
+	}
+	
+	public Ship getPlayer()
+	{
+		return player;
 	}
 }

@@ -3,6 +3,7 @@ package strategy;
 import java.awt.Point;
 import java.util.Random;
 
+import factory.BattleShooter;
 import factory.Ship;
 
 public class MasterShip extends Ship
@@ -37,6 +38,20 @@ public class MasterShip extends Ship
 		}
 		return instance;
 	}
+	
+	// copy constructor
+	public MasterShip(MasterShip newShip)
+	{
+		this.description = newShip.description;
+		this.position = newShip.position;
+	}
+
+	// return a deepcopy of a concrete implementation of "SHIP"
+	@Override
+	public Ship deepCopy()
+	{	
+		return new MasterShip(this);
+	}
 
 	// getter and setter for ship mode
 	public ShipMode getShipMode()
@@ -48,4 +63,6 @@ public class MasterShip extends Ship
 	{
 		this.myMode = newShipMode;
 	}
+	
+	
 }

@@ -20,6 +20,7 @@ public class GameDemo
 					frame.setVisible(true);				 // ensure it's visible
 					frame.setResizable(false);			 // ensure it's fullscreen
 					myMan = new GameManager(frame);		 // create game manager and give it reference to gui
+					frame.setManager(myMan);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}

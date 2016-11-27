@@ -8,6 +8,7 @@ import java.awt.event.ActionListener;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
+import observer.GameManager;
 import observer.GridElement;
 
 public class GameWindow extends JFrame {
@@ -18,10 +19,13 @@ public class GameWindow extends JFrame {
 	private int xDim = 640;
 	private int yDim = 480;
 	
+	private GameManager myMan;
+	
 	/**
 	 * Create the frame.
 	 */
-	public GameWindow() {
+	public GameWindow()
+	{	
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(0, 0, 640, 480);
 		setExtendedState(JFrame.MAXIMIZED_BOTH);
@@ -48,15 +52,6 @@ public class GameWindow extends JFrame {
 		    {
 		        setDividerLocation( location );
 		    }
-		    @Override
-		    public int getDividerLocation() {
-		        return location ;
-		    }
-		    @Override
-		    public int getLastDividerLocation() {
-		        return location ;
-		    }
-		
 		};
 		
 		splitPane.setResizeWeight(1.0); 		// ensure toolbar stays the same size and the grid resizes
@@ -81,6 +76,7 @@ public class GameWindow extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				System.out.println("click moe");
+				myMan.nextTurn();
 			}
 		});
 		
@@ -109,5 +105,11 @@ public class GameWindow extends JFrame {
 	{
 		return this.gridcell;
 	}
-
+	
+	
+	// set reference to game man so can call when btn clicked
+	public void setManager(GameManager man)
+	{
+		this.myMan = man;
+	}
 }

@@ -1,6 +1,7 @@
 package observer;
 
 import java.awt.*;
+import java.util.ArrayList;
 
 import javax.swing.*;
 
@@ -12,8 +13,7 @@ public class GridElement implements Observer
 	private int xCoord;
 	private int yCoord;
 	
-	private JLabel label;
-	private JLabel label1;
+	private ArrayList<JLabel> shipLabels = new ArrayList<JLabel>();
 	
 	// encapsulating label for boxlayout
 	private JLabel panelLayoutLabel;
@@ -59,8 +59,22 @@ public class GridElement implements Observer
 		if (loc[xCoord][yCoord] != null)
 		{
 			System.out.println("Something is here!!! "+ xCoord + yCoord);
-		    label1 = new JLabel(masterShip);
-		    panelLayoutLabel.add(label1);
+		    
+			JLabel label = new JLabel(masterShip);
+			shipLabels.add(label);
+		    panelLayoutLabel.add(label);
+		    panelLayoutLabel.revalidate();
+		    panelLayoutLabel.repaint();
+		}
+		else
+		{
+			for (JLabel ship : shipLabels)
+			{
+				panelLayoutLabel.remove(ship);
+			    panelLayoutLabel.revalidate();
+			    panelLayoutLabel.repaint();
+			}
+			
 		}
 	}
 	
