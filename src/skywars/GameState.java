@@ -13,8 +13,17 @@ public class GameState
 	
 	private String[][] cellLocations = new String[4][4];
 	
+	// flag for collision (popup is listener) - default no
+	private Boolean collision = false;
+	
 	public GameState(Ship master, ArrayList<Ship> en)
 	{
+		if (master == null)
+		{
+			//GAME OVER				
+			return;
+		}
+		
 		// deep copy of ships so changes elsewhere are not reflected 
 		this.player = master.deepCopy();
 		
@@ -65,11 +74,23 @@ public class GameState
 	
 	public Ship getPlayer()
 	{
-		return player;
+		return this.player;
 	}
 	
 	public ArrayList<Ship> getEnemies()
 	{
-		return enemies;
+		return this.enemies;
+	}
+	
+	// getter for whether there is a collision or not
+	public Boolean getCollision()
+	{
+		return this.collision;
+	}
+	
+	// setter for collision true/false
+	public void setCollision(Boolean value)
+	{
+		this.collision = value;
 	}
 }

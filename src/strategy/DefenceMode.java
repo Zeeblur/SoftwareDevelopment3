@@ -15,7 +15,8 @@ public class DefenceMode implements ShipMode {
 		System.out.println("Defennnnd");
 		
 		// get player position.
-		Point playerPos = gs.getPlayer().getPosition();
+		Ship playerTemp = gs.getPlayer();
+		Point playerPos = playerTemp.getPosition();
 		
 		// for every enemy in list. if in same square add to list
 		
@@ -26,7 +27,7 @@ public class DefenceMode implements ShipMode {
 		for (Ship s : gs.getEnemies())
 		{
 			// if in same square check, if not add to total
-			if (s.getPosition() == playerPos)
+			if (s.getPosition().x == playerPos.x && s.getPosition().y == playerPos.y)
 			{
 				collidingEn.add(s);
 			}
@@ -38,13 +39,14 @@ public class DefenceMode implements ShipMode {
 			
 		}
 		
-		// defensive can withstand 2
-		if (collidingEn.size() > 2)
+		// defensive can withstand 1
+		if (collidingEn.size() > 1)
 		{
 			System.out.println("I SHOULD DIE");
+			playerTemp = null;
 		}
 		
-		return new GameState(gs.getPlayer(), totalEnemies);
+		return new GameState(playerTemp, totalEnemies);
 	}
 
 }

@@ -12,11 +12,6 @@ public class FleetCommander
 	public void addCommand(Command aCommand)
 	{
 		this.theCommands.add(aCommand);
-		
-		if(aCommand == null)
-		{
-			System.out.println("SHITS FUCKED");
-		}
 	}
 	
 	// execute all the commands in the list

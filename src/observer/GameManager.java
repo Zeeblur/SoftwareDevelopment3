@@ -14,6 +14,7 @@ import strategy.MasterShip;
 import factory.Ship;
 import factory.ShipFactory;
 import gui.GameWindow;
+import gui.PopUp;
 import strategy.*;
 
 public class GameManager implements Observable
@@ -22,7 +23,6 @@ public class GameManager implements Observable
 	private GameState currentState;
 	
 	private Stack<GameState> undoStack = new Stack<GameState>();
-	private Stack<GameState> redoStack = new Stack<GameState>();
 	
 	
 	// instance of factory
@@ -100,7 +100,7 @@ public class GameManager implements Observable
 	{
 		// 1 in three chance of spawn
 		Random rng = new Random();
-		if (rng.nextInt(3) + 1 == 2)
+		//if (rng.nextInt(3) + 1 == 2)
 		{
 			Ship enemy = myFactory.createEnemy();
 			this.currentState.getEnemies().add(enemy); // this enemy plus current enemies in sky
@@ -122,9 +122,19 @@ public class GameManager implements Observable
 				{
 					// cast player as master ship to resolve conflicts according to it's mode
 					MasterShip m = (MasterShip) this.currentState.getPlayer();
+					
+					// set collision to be true
+					this.currentState.setCollision(true);
+					
+					// notify the gui that a pop up is needed
+					notifyListeners();
+
+					// resolveCollisons
 					GameState gs = m.resolveCollision(this.currentState);
+					
+					// update game
 					currentState = gs;
-					//notifyListeners();
+					notifyListeners();
 					
 					return;
 				}
@@ -135,7 +145,6 @@ public class GameManager implements Observable
 	
 	public void undo()
 	{		
-		redoStack.push(currentState);
 		//GameState lastMove = undoStack.pop();
 		currentState = undoStack.pop();//new GameState(undoStack.pop().getPlayer(), null);
 		notifyListeners();
@@ -158,6 +167,11 @@ public class GameManager implements Observable
 		
 		// add the gui as an observer for amount of enemies 
 		cellObservers.add(gui);
+	}
+	
+	public void registerPop(PopUp dialog)
+	{
+		cellObservers.add(dialog);
 	}
 
 

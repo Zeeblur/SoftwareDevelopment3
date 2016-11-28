@@ -180,6 +180,5 @@ public class GameWindow extends JFrame implements Observer {
 	public void update(GameState state)
 	{
 		enemyCounter.setText("Enemies: " + state.getEnemies().size());
-		System.out.println("OOOOOOOOOOOOOOOOOOOOOOOOOOH");
 	}
 }

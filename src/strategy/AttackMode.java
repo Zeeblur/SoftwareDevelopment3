@@ -14,7 +14,8 @@ public class AttackMode implements ShipMode {
 		System.out.println("ATTAAACK");
 		
 		// get player position.
-		Point playerPos = gs.getPlayer().getPosition();
+		Ship playerTemp = gs.getPlayer();
+		Point playerPos = playerTemp.getPosition();
 		
 		// for every enemy in list. if in same square add to list
 		
@@ -37,13 +38,14 @@ public class AttackMode implements ShipMode {
 			
 		}
 		
-		// 
-		if (collidingEn.size() > 0)
+		// colliding enemies are not passed to the new gameState (killed) if there is less than 2.
+		if (collidingEn.size() > 2)
 		{
-			System.out.println("I SHOULD KILL THINGS NOW");
+			System.out.println("I SHOULD DIE NOW");
+			playerTemp = null;
 		}
 		
-		return new GameState(gs.getPlayer(), totalEnemies);
+		return new GameState(playerTemp, totalEnemies);
 	}
 
 }
