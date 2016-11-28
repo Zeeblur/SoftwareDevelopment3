@@ -41,12 +41,11 @@ public abstract class Ship
 				continue;
 			
 			valid = true;
-			
 		}
 		
 		// set new position for ship
 		position = newPosition;
-		
+		System.out.println(this.description + " is moving to " + position.x + "," + position.y);
 			
 	};
 	

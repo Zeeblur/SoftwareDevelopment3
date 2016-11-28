@@ -1,5 +1,7 @@
 package strategy;
 
+import skywars.GameState;
+
 public interface ShipMode {
-	public void react();
+	public GameState react(GameState gs);
 }

@@ -20,6 +20,9 @@ public class MoveCommandGenerator extends Thread
 	public void run()
 	{
 		Command movement = new MoveCommand(myShip);
+		if (myShip == null)
+			System.out.println(movement.toString() + " com; " +myCommander.toString());
+		
 		this.myCommander.addCommand(movement);
 	}
 }

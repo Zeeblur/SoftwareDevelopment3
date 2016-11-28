@@ -3,6 +3,7 @@ package strategy;
 import java.awt.Point;
 import java.util.Random;
 
+import skywars.GameState;
 import factory.BattleShooter;
 import factory.Ship;
 
@@ -13,7 +14,7 @@ public class MasterShip extends Ship
 	protected ShipMode myMode;
 	
 	// private constructor for use in singleton pattern	
-	private MasterShip()
+	public MasterShip()
 	{
 		// initialise descriptions
 		this.description = "Master Ship";
@@ -44,6 +45,7 @@ public class MasterShip extends Ship
 	{
 		this.description = newShip.description;
 		this.position = newShip.position;
+		this.myMode = newShip.myMode;
 	}
 
 	// return a deepcopy of a concrete implementation of "SHIP"
@@ -51,6 +53,12 @@ public class MasterShip extends Ship
 	public Ship deepCopy()
 	{	
 		return new MasterShip(this);
+	}
+	
+	// calls correct response to collision chosen by mode (strategy pattern)
+	public GameState resolveCollision(GameState gs)
+	{
+		return this.myMode.react(gs);
 	}
 
 	// getter and setter for ship mode

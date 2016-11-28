@@ -1,10 +1,13 @@
 package factory;
 
+import java.awt.Point;
+
 public class BattleCruiser extends Ship
 {
 	public BattleCruiser()
 	{
 		this.description = "Battle Cruiser";
+		this.position = new Point(0, 0);
 	}
 	
 	// copy constructor

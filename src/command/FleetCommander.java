@@ -12,12 +12,21 @@ public class FleetCommander
 	public void addCommand(Command aCommand)
 	{
 		this.theCommands.add(aCommand);
+		
+		if(aCommand == null)
+		{
+			System.out.println("SHITS FUCKED");
+		}
 	}
 	
 	// execute all the commands in the list
 	public void execute()
 	{
-		for (Command command : this.theCommands)
-			command.execute();
+		for (Command c : this.theCommands)
+		{
+			// check if not null
+			if (c != null)
+				c.execute();
+		}
 	}
 }

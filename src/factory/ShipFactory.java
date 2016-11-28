@@ -9,7 +9,7 @@ public class ShipFactory
 	public Ship createMasterShip()
 	{
 		// returns instance of mastership
-		Ship master = MasterShip.getInstance();
+		Ship master = new MasterShip();
 		return master;
 	}
 	
@@ -20,7 +20,7 @@ public class ShipFactory
 		Ship newShip = null;
 		
 		Random rng = new Random();
-		int value = rng.nextInt(2);
+		int value = rng.nextInt(3);
 		
 		switch (value)
 		{

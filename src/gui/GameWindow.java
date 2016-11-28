@@ -10,14 +10,19 @@ import javax.swing.border.EmptyBorder;
 
 import observer.GameManager;
 import observer.GridElement;
+import observer.Observer;
+import skywars.GameState;
 
-public class GameWindow extends JFrame {
+public class GameWindow extends JFrame implements Observer {
 
 	private JPanel contentPane;
+	private JToolBar controlPane;
 	private GridElement[][] gridcell = new GridElement[4][4];
 	
 	private int xDim = 640;
 	private int yDim = 480;
+	
+	private int numOfEn =0;
 	
 	private GameManager myMan;
 	
@@ -36,7 +41,7 @@ public class GameWindow extends JFrame {
 		
 		
 		// add tool bar and game grid to split pane.
-		JToolBar controlPane = new JToolBar();
+		controlPane = new JToolBar();
 		controlPane.setLayout(new FlowLayout(FlowLayout.CENTER));
 		controlPane.setFloatable(false); // don't allow user to move toolbar
 		
@@ -57,31 +62,10 @@ public class GameWindow extends JFrame {
 		splitPane.setResizeWeight(1.0); 		// ensure toolbar stays the same size and the grid resizes
 		contentPane.add(splitPane);				// show split pane in window
 		
-
-	
-		JButton undoBtn = new JButton("Undo");
-		undoBtn.addActionListener(new ActionListener()
-		{
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				System.out.println("click");
-				myMan.undo();
-			}
-		});
+		InitialiseBtns();
 		
-		controlPane.add(undoBtn);
-		
-		JButton moveBtn = new JButton("Move");
-		moveBtn.addActionListener(new ActionListener()
-		{
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				System.out.println("click moe");
-				myMan.nextTurn();
-			}
-		});
-		
-		controlPane.add(moveBtn);
+		// add radio btns for user to select which mode the ship is in		
+		InitialiseRB();
 
 		// Add buttons to game grid
 		int row = 0;
@@ -99,18 +83,103 @@ public class GameWindow extends JFrame {
 			row++; // increment to next row once 4 buttons have been added
 		}
 		
+		// zero to start with
+		numOfEn = 0; 
+		JLabel enemyCounter = new JLabel ("Enemies: " + numOfEn);
+		controlPane.add(enemyCounter);
 	}
 	
+	// method to intialise the buttons for the gui with their handlers
+	public void InitialiseBtns()
+	{
+		// create undo btn
+		JButton undoBtn = new JButton("Undo");
+		
+		// add event listener
+		undoBtn.addActionListener(new ActionListener()
+		{
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				System.out.println("click");
+				myMan.undo();
+			}
+		});
+		
+		// add undo button to toolbar
+		controlPane.add(undoBtn);
+		
+		// Create Move button
+		JButton moveBtn = new JButton("Move");
+		moveBtn.addActionListener(new ActionListener()
+		{
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				System.out.println("click moe");
+				myMan.nextTurn();
+			}
+		});
+		
+		controlPane.add(moveBtn); // add to toolbar
+	}
 	
+	// Method to init Radio buttons for strategy selection
+	public void InitialiseRB()
+	{
+		// create new button group to group switches together (Auto handles unchecking when the other is checked)
+		ButtonGroup bg1 = new ButtonGroup( );
+
+		// defence button switches to defence mode, is selected by default
+		JRadioButton defendRBtn = new JRadioButton ("Defence Mode", true);
+		
+		// add event handler to tell GM which ship mode
+		defendRBtn.addActionListener(new ActionListener()
+		{
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				System.out.println("Changed to Defensive Position");
+				// false as (not attacking)
+				myMan.changeShipMode(false);
+			}
+		});		
+		
+		bg1.add(defendRBtn); // add to btn group
+		
+		// Attack button switches to attack mode, is unchecked by default
+		JRadioButton attackRBtn = new JRadioButton ("Attack Mode");
+		
+		attackRBtn.addActionListener(new ActionListener()
+		{
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				// true as attacking
+				myMan.changeShipMode(true);
+			}
+		});
+		
+		bg1.add(attackRBtn); // add to btn group
+		
+		
+		// add btns to toolbar 
+		controlPane.add(defendRBtn);
+		controlPane.add(attackRBtn);
+	}
+
+	// getter for grid array
 	public GridElement[][] getGrid()
 	{
 		return this.gridcell;
 	}
 	
-	
 	// set reference to game man so can call when btn clicked
 	public void setManager(GameManager man)
 	{
 		this.myMan = man;
+	}
+
+	// update from gm of the new gamestate
+	@Override
+	public void update(GameState state)
+	{
+		numOfEn = state.getEnemies().size();
 	}
 }

@@ -9,7 +9,7 @@ import factory.Ship;
 public class GameState
 {
 	private Ship player;
-	private ArrayList<Ship> enemies;
+	private ArrayList<Ship> enemies = new ArrayList<Ship>();
 	
 	private String[][] cellLocations = new String[4][4];
 	
@@ -18,13 +18,10 @@ public class GameState
 		// deep copy of ships so changes elsewhere are not reflected 
 		this.player = master.deepCopy();
 		
-		if (enemies != null)
+		for (Ship enemy : en)
 		{
-			for (Ship enemy : en)
-			{
-				this.enemies.add(enemy.deepCopy());
-			}
-		}
+			this.enemies.add(enemy.deepCopy());
+		}	
 		
 		// initialise celllocations
 		for (String[] stringArray : cellLocations)
@@ -69,5 +66,10 @@ public class GameState
 	public Ship getPlayer()
 	{
 		return player;
+	}
+	
+	public ArrayList<Ship> getEnemies()
+	{
+		return enemies;
 	}
 }
