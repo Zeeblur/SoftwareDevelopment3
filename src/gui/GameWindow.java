@@ -22,7 +22,7 @@ public class GameWindow extends JFrame implements Observer {
 	private int xDim = 640;
 	private int yDim = 480;
 	
-	private int numOfEn =0;
+	private JLabel enemyCounter;
 	
 	private GameManager myMan;
 	
@@ -83,9 +83,8 @@ public class GameWindow extends JFrame implements Observer {
 			row++; // increment to next row once 4 buttons have been added
 		}
 		
-		// zero to start with
-		numOfEn = 0; 
-		JLabel enemyCounter = new JLabel ("Enemies: " + numOfEn);
+		// zero to start with 
+		enemyCounter = new JLabel ("Enemies: 0");
 		controlPane.add(enemyCounter);
 	}
 	
@@ -180,6 +179,7 @@ public class GameWindow extends JFrame implements Observer {
 	@Override
 	public void update(GameState state)
 	{
-		numOfEn = state.getEnemies().size();
+		enemyCounter.setText("Enemies: " + state.getEnemies().size());
+		System.out.println("OOOOOOOOOOOOOOOOOOOOOOOOOOH");
 	}
 }

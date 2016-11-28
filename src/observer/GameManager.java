@@ -29,7 +29,8 @@ public class GameManager implements Observable
 	private ShipFactory myFactory;
 	
 	// list of observers
-	private GridElement[][] cellObservers;
+	private ArrayList<Observer> cellObservers = new ArrayList<Observer>();
+	private GridElement[][] gridcells;
 	
 	// constructor to create new master ship and get observers
 	public GameManager(GameWindow gui)
@@ -113,7 +114,7 @@ public class GameManager implements Observable
 		
 		// see if something shares master square. if so check what mode master is in
 		// death of ship
-		for (GridElement[] cellArray : cellObservers)
+		for (GridElement[] cellArray : gridcells)
 		{
 			for (GridElement cell : cellArray)
 			{
@@ -144,21 +145,31 @@ public class GameManager implements Observable
 	@Override
 	public void registerListeners(GameWindow gui)
 	{
-		cellObservers = gui.getGrid();
+		// store the grid elements then add each in turn to the observer list
+		gridcells = gui.getGrid();
+		for (GridElement[] cellArray : gridcells)
+		{
+				
+			for (GridElement cell : cellArray)
+			{
+				cellObservers.add(cell);
+			}
+		}
+		
+		// add the gui as an observer for amount of enemies 
+		cellObservers.add(gui);
 	}
 
 
+	// update function for the observers (gridcells and gui)
 	@Override
 	public void notifyListeners()
 	{
 		// update all observers with gamestate
-		for (GridElement[] cellArray : cellObservers)
+		for (Observer l : cellObservers)
 		{
-			for (GridElement cell : cellArray)
-			{
-				cell.update(currentState);
-			}
-		}
+			l.update(currentState);
+		}	
 	}
 	
 	public void changeShipMode(Boolean att)
